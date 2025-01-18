@@ -3,6 +3,38 @@ package tester
 import ui "../"
 import "core:fmt"
 import "core:strings"
+import "base:runtime"
+import "core:time"
+
+// ** functions currently not in the website's documentation:
+// show_client
+
+events :: proc "c" (e: ^ui.Event) {
+    context = runtime.default_context()
+
+    switch e.event_type {
+        case .Connected:
+            fmt.printfln("\nConnected. \n")
+        case .Disconnected:
+            fmt.printfln("\nDisconnected. \n")
+        case .MouseClick:
+            fmt.printfln("\nClick. \n")
+        case .Navigation:
+            url: string = string(ui.get_string(e))
+            fmt.printfln("\nStarting navigation to: %s \n", url)
+        case .Callback:
+            fmt.println("Callback")
+    }
+}
+
+callback :: proc "c" (e: ^ui.Event) {
+    context = runtime.default_context()
+    // random code here
+    fmt.printfln("callback function called")
+}
+
+
+// == TEST FUNCTIONS ==========================================================
 
 test_download_and_install :: proc() {
 // ### Download and Install
@@ -145,7 +177,14 @@ main :: proc() {
     ui.bind(win, "callback", callback)
 }
 `
-    // TODO:
+    win: uint = ui.new_window()
+    bind_id_1 := ui.bind(win, "", events)
+    bind_id_2 := ui.bind(win, "callback", callback)
+    output := fmt.aprintf("\nbind ID 1: %d\nbind ID 2: %d", bind_id_1, bind_id_2)
+
+    fmt.printf("### bind:")
+    fmt.printfln(strings.concatenate({example, output, "\n\n"}))
+    ui.destroy(win)
 }
 
 
@@ -206,7 +245,13 @@ main :: proc() {
     ui.bind(win, "", events)
 }
 `
-    // TODO:
+    win: uint = ui.new_window()
+    bind_id_1 := ui.bind(win, "", events)
+    output := fmt.aprintf("\nbind ID 1: %d", bind_id_1)
+
+    fmt.printf("### event:")
+    fmt.printfln(strings.concatenate({example, output, "\n\n"}))
+    ui.destroy(win)
 }
 
 
@@ -242,10 +287,16 @@ main :: proc() {
     * @param window The window number
     */
 
-    browserID: c.size_t = ui.get_best_browser(myWindow)
+    browserID: uint = ui.get_best_browser(myWindow)
 }
 `
-    // TODO:
+    win: uint = ui.new_window()
+    browserID: uint = ui.get_best_browser(win)
+    output := fmt.aprintf("\nbrowserID returned: %d", browserID)
+
+    fmt.printf("### get_best_browser:")
+    fmt.printfln(strings.concatenate({example, output, "\n\n"}))
+    ui.destroy(win)
 }
 
 
@@ -263,13 +314,23 @@ main :: proc() {
     * @param content The HTML, URL, Or a local file
     */
 
-    ui.show(myWindow, "<html><script src=\"/webui.js\"> ... </html>")
+    ui.show(myWindow, "<html><script src=\"/webui.js\"></script> ... </html>")
     ui.show(myWindow, "file.html")
     ui.show(myWindow, "https://mydomain.com")
 }
 `
-    // TODO:
+    win: uint = ui.new_window()
+    pass := ui.webui_show(win, "<html><script src=\"/webui.js\"></script> ... </html>")
+    output := fmt.aprintf("did webui_show pass: %t", pass)
+
+    fmt.printf("### show:")
+    fmt.printfln(strings.concatenate({example, output, "\n\n"}))
+    ui.exit()
+    ui.destroy(win)
 }
+
+
+// TODO: show_client
 
 
 test_show_browser :: proc() {
@@ -306,10 +367,17 @@ main :: proc() {
     * @param browser The web browser to be used
     */
 
-    ui.show_browser(myWindow, <html><script src=\"/webui.js\"> ... </html>", .Chrome)
+    ui.show_browser(myWindow, "<html><script src=\"/webui.js\"></script> ... </html>", .Chrome)
 }
 `
-    // TODO:
+    win: uint = ui.new_window()
+    pass := ui.show_browser(win, "<html><script src=\"/webui.js\"></script> ... </html>", .AnyBrowser)
+    output := fmt.aprintf("did webui_show_browser pass: %t", pass)
+
+    fmt.printf("### show_browser:")
+    fmt.printfln(strings.concatenate({example, output, "\n\n"}))
+    ui.exit()
+    ui.destroy(win)
 }
 
 
@@ -790,39 +858,395 @@ main :: proc() {
 // TODO:
 }
 
+
+test_set_config :: proc() {
 // ### set_config
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_set_event_blocking :: proc() {
 // ### set_event_blocking
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_set_tls_certificate :: proc() {
 // ### set_tls_certificate
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_run :: proc() {
 // ### run
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_script :: proc() {
 // ### script
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_set_runtime :: proc() {
 // ### set_runtime
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_count :: proc() {
 // ### get_count
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_int_at :: proc() {
 // ### get_int_at
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_int :: proc() {
 // ### get_int
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_float_at :: proc() {
 // ### get_float_at
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_float :: proc() {
 // ### get_float
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_string_at :: proc() {
 // ### get_string_at
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_string :: proc() {
 // ### get_string
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_bool_at :: proc() {
 // ### get_bool_at
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_bool :: proc() {
 // ### get_bool
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_size_at :: proc() {
 // ### get_size_at
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_size :: proc() {
 // ### get_size
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_return_int :: proc() {
 // ### return_int
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_return_float :: proc() {
 // ### return_float
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_return_string :: proc() {
 // ### return_string
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_return_bool :: proc() {
 // ### return_bool
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_open_url :: proc() {
 // ### open_url
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_start_server :: proc() {
 // ### start_server
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_mime_type :: proc() {
 // ### get_mime_type
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_port :: proc() {
 // ### get_port
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
+
+
+test_get_free_port :: proc() {
 // ### get_free_port
-// ### JavaScript - call
-// ### JavaScript - isConnected
-// ### JavaScript - setEventCallback
-// ### JavaScript - encode
-// ### JavaScript - decode
-// ### JavaScript - isHighContrast
-// ### JavaScript - setLogging
+    example :: `
+package main
+
+import ui "webui"
+
+main :: proc() {
+
+}
+`
+// TODO:
+}
 
 
 main :: proc() {
@@ -836,7 +1260,7 @@ main :: proc() {
         test_bind()
         test_event()
         test_get_best_browser()
-        test_show()
+        //test_show()
         test_show_browser()
         test_show_wv()
         test_set_kiosk()
@@ -869,32 +1293,32 @@ main :: proc() {
         test_get_parent_process_id()
         test_get_child_process_id()
         test_set_port()
-//        test_set_config()
-//        test_set_event_blocking()
-//        test_set_tls_certificate()
-//        test_run()
-//        test_script()
-//        test_set_runtime()
-//        test_get_count()
-//        test_get_int_at()
-//        test_get_int()
-//        test_get_float_at()
-//        test_get_float()
-//        test_get_string_at()
-//        test_get_string()
-//        test_get_bool_at()
-//        test_get_bool()
-//        test_get_size_at()
-//        test_get_size()
-//        test_return_int()
-//        test_return_float()
-//        test_return_string()
-//        test_return_bool()
-//        test_open_url()
-//        test_start_server()
-//        test_get_mime_type()
-//        test_get_port()
-//        test_get_free_port()
+        test_set_config()
+        test_set_event_blocking()
+        test_set_tls_certificate()
+        test_run()
+        test_script()
+        test_set_runtime()
+        test_get_count()
+        test_get_int_at()
+        test_get_int()
+        test_get_float_at()
+        test_get_float()
+        test_get_string_at()
+        test_get_string()
+        test_get_bool_at()
+        test_get_bool()
+        test_get_size_at()
+        test_get_size()
+        test_return_int()
+        test_return_float()
+        test_return_string()
+        test_return_bool()
+        test_open_url()
+        test_start_server()
+        test_get_mime_type()
+        test_get_port()
+        test_get_free_port()
     }
 
 }
