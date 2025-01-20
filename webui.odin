@@ -248,7 +248,7 @@ foreign webui {
 	 * @example url: cstring = ui.start_server(myWindow, "/full/root/path")
 	 */
 	@(link_name="webui_start_server")
-	start_server:: proc(window: c.size_t, content: cstring) -> cstring ---
+	start_server :: proc(window: c.size_t, content: cstring) -> cstring ---
 
 	/**
 	 * @brief Show a WebView window using embedded HTML, or a file. If the window is already
@@ -504,7 +504,7 @@ foreign webui {
 	 * @param raw The raw data buffer
 	 * @param size The raw data size in bytes
 	 *
-	 * @example ui.send_raw(myWindow, "myJavaScriptFunc", myBuffer, 64)
+	 * @example ui.send_raw(myWindow, "myJavaScriptFunc", raw_data(myBuffer), 64)
 	 */
 	@(link_name="webui_send_raw")
 	send_raw :: proc(window: c.size_t, function: cstring, raw: rawptr, size: c.size_t) ---
@@ -778,6 +778,8 @@ foreign webui {
 
 	/**
 	 * @brief Get the HTTP mime type of a file.
+	 *
+	 * @param file The path to and or, with the file included
 	 *
 	 * @return Returns the HTTP mime string
 	 *
