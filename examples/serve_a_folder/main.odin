@@ -1,6 +1,8 @@
 // This examples needs to be executed relative to the examples directory.
 // E.g.: `cd examples/serve_a_folder` then `odin run .` NOT `odin run examples/serve_a_folder`.
-package main
+package serve_a_folder
+
+// TODO: remake to match the C-version, should use 'set_file_handler' instead
 
 import ui "../../"
 import "base:runtime"

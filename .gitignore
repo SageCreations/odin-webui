@@ -28,3 +28,6 @@ setup
 .idea/
 .vscode/
 *.iml
+
+# Testing files
+tester/README.md
