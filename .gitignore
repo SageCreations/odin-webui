@@ -30,4 +30,4 @@ setup
 *.iml
 
 # Testing files
-tester/README.md
+documentation/README.md
